@@ -3,6 +3,11 @@ __pycache__/
 *.py[cod]
 *$py.class
 
+# bye-bye IAR generate file
+*.o
+*.pbi
+*.cout
+
 # C extensions
 *.so
 
