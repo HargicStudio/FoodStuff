@@ -1,0 +1,140 @@
+
+/***
+
+History:
+[2016-05-22 Ted]: Create
+
+*/
+
+
+#include <stdio.h>
+#include <string.h>
+#include <stdarg.h>
+#include <stdbool.h>
+#include "AaInclude.h"
+
+
+
+#define CCSDEAMON_STACK_SIZE        0x80
+
+
+/** AaMem heap buffer for whole system */  
+#define AAMEM_HEAP_BUFFER_SIZE  (1024*4)
+
+char _mem_heap_buf[AAMEM_HEAP_BUFFER_SIZE];
+
+
+/** Description of the macro */  
+osThreadId _ccsdeamon_id;
+
+
+
+static u8 CCSDeamonCreateThread();
+static void CCSDeamonThread(void const *arg);
+
+
+
+/** 
+ * System Compute environment initialize
+ * initialize the sub service which won't create thread
+ * any sub service deamon which need create thread should be initialzed in CCSDeamon thread
+ * @param[in]   inArgName input argument description. 
+ * @param[out]  outArgName output argument description.  
+ * @retval  
+ * @retval  
+ * @par 
+ *      
+ * @par 
+ *      
+ * @par History
+ *      2016-5-21 Huang Shengda
+ */  
+u8 CCSDeamonCEInit()
+{
+    // WARNING: don't change the order
+    AaThreadCEInit();
+    AaMemHeapCEInit(_mem_heap_buf, &_mem_heap_buf[AAMEM_HEAP_BUFFER_SIZE - 1]);
+    AaSysLogCEInit();
+    AaTagCEInit();
+
+    CCSDeamonCreateThread();
+    
+    return 0;
+}
+
+
+/** 
+ * This is a brief description. 
+ * This is a detail description. 
+ * @param[in]   inArgName input argument description. 
+ * @param[out]  outArgName output argument description.  
+ * @retval  
+ * @retval  
+ * @par 
+ *      
+ * @par 
+ *      
+ * @par History
+ *      2016-5-22 Huang Shengda
+ */  
+static u8 CCSDeamonCreateThread()
+{
+    osThreadDef(CCSDeamon, CCSDeamonThread, osPriorityHigh, 0, CCSDEAMON_STACK_SIZE);
+    
+    _ccsdeamon_id = AaThreadCreate(osThread(CCSDeamon), NULL);
+    if(_ccsdeamon_id == NULL) {
+        AaSysLogPrint(LOGLEVEL_ERR, FeatureCCS, "%s %d: CCS Deamon initialize failed",
+                __FUNCTION__, __LINE__);
+        return 1;
+    }
+    AaSysLogPrint(LOGLEVEL_DBG, FeatureCCS, "create CCS deamon success");
+    
+    return 0;
+}
+
+/** 
+ * This is a brief description. 
+ * This is a detail description. 
+ * @param[in]   inArgName input argument description. 
+ * @param[out]  outArgName output argument description.  
+ * @retval  
+ * @retval  
+ * @par 
+ *      
+ * @par 
+ *      
+ * @par History
+ *      2016-5-22 Huang Shengda
+ */  
+static void CCSDeamonThread(void const *arg)
+{
+    (void) arg;
+
+    AaSysLogPrint(LOGLEVEL_INF, FeatureCCS, "CCSDeamonThread started");
+
+    // initialize ccs service which need in CCSDeamon thread
+    AaTagCreate(AATAG_CCS_DEAMON_ONLINE, 0);
+    AaTagSetValue(AATAG_CCS_DEAMON_ONLINE, 1);
+    
+    AaTagCreate(AATAG_CCS_STARTUP, 0);
+
+    // start ccs service thread
+//    AaSysLogCreateDeamon();
+    AaSysLogProcessPrintRunThrPolling();
+    AaTagCreateDeamon();
+
+    // start ccs config
+    AaTagSetValue(AATAG_CCS_STARTUP, 1);
+
+    u8 i = 0;
+
+    for(;;) {
+        osDelay(5000);
+        AaMemList();
+        AaTagSetValue(AATAG_CCS_DEAMON_ONLINE, i++);
+    }
+}
+
+
+
+// end of file

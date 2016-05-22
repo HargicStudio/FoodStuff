@@ -1,0 +1,96 @@
+嵌入式C语言开发中通常使用Doxygen进行文档的生成。Doxygen支持多种格式，非常灵活，但排版不好就会显的比较杂乱，不便于阅读。下面给出一份注释模板。
+
+ 
+一、文件注释，放于文件的开头
+
+/** 
+ * @file     filename 
+ * @brief    This is a brief description. 
+ * @details  This is the detail description. 
+ * @author   author 
+ * @date     date 
+ * @version  A001 
+ * @par Copyright (c):  
+ *           XXX公司 
+ * @par History:          
+ *   version: author, date, desc\n 
+ */  
+
+
+二、函数注释，放于函数声明前
+
+/** 
+ * This is a brief description. 
+ * This is a detail description. 
+ * @param[in]   inArgName input argument description. 
+ * @param[out]  outArgName output argument description.  
+ * @retval  OK  成功 
+ * @retval  ERROR  错误  
+ * @par 标识符 
+ *      保留 
+ * @par 其它 
+ *      无 
+ * @par 修改日志 
+ *      XXX于201X-XX-XX创建 
+ */  
+ 
+/** 
+ * This is a brief description. 
+ * This is a detail description. 
+ * @param[in]   inArgName input argument description. 
+ * @param[out]  outArgName output argument description.  
+ * @retval  
+ * @retval  
+ * @par 
+ *      
+ * @par 
+ *      
+ * @par History
+ *      2016-5-22 Huang Shengda
+ */  
+
+
+三、数据结构注释，放于数据结构定义前
+
+/** 
+ * The brief description. 
+ * The detail description. 
+ */  
+typedef struct  
+{  
+    /*!
+     *  @brief  
+     */
+    int var1; ///< Description of the member variable.  
+}XXXX;  
+
+
+四、宏定义注释，放于宏定义上方或者右侧
+
+/** Description of the macro */  
+#define XXXX_XXX_XX     0  
+ 
+或者
+
+#define XXXX_XXX_XX     0 ///< Description of the macro. 
+
+或者
+
+/**
+ * @ingroup 
+ *
+ * @def 
+ * Return 
+ * 
+ */
+
+
+
+五、全局和静态变量注释
+
+/** Description of global variable */  
+int g_xxx = 0;  
+  
+static int s_xxx = 0; ///< Description of static variable.  
+   
+
