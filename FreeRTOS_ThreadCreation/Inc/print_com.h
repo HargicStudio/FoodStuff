@@ -1,7 +1,7 @@
 
 /* Define to prevent recursive inclusion -------------------------------------*/
-#ifndef __STM32F1XX_HAL_MSP_H
-#define __STM32F1XX_HAL_MSP_H
+#ifndef __PRINT_COM_H
+#define __PRINT_COM_H
 
 #ifdef __cplusplus
 extern "C" {
@@ -9,6 +9,7 @@ extern "C" {
 
 
 #include "stm32f1xx_hal.h"
+#include "AaInclude.h"
 
 
 
@@ -57,6 +58,8 @@ extern "C" {
 
 
 void StdUsartInit(void);
+void GetBipAndSendByDMA(char* addr, u32 len);
+void GetBipAndSendByPolling(char* addr, u32 len);
 
 
 
@@ -65,7 +68,7 @@ void StdUsartInit(void);
 }
 #endif
 
-#endif /* __STM32F1XX_HAL_MSP_H */
+#endif /* __PRINT_COM_H */
 
 
 

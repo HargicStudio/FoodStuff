@@ -9,15 +9,15 @@ extern "C" {
 
 
 
-#include "AaInclude.h"
+#include "stm32f1xx_hal.h"
 
 
-
-void LED_Init(void);
-void LED_On();
-void LED_Off();
-void LED_Toggle(void);
-
+/**
+  * @brief  start led from system level
+  * @param  none
+  * @retval None
+  */
+void StartRunLedTask();
 
 
 

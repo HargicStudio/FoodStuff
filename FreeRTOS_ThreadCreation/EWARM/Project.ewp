@@ -970,10 +970,13 @@
     <group>
       <name>User</name>
       <file>
+        <name>$PROJ_DIR$\..\Src\led.c</name>
+      </file>
+      <file>
         <name>$PROJ_DIR$\..\Src\main.c</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\Src\stm32f1xx_hal_msp.c</name>
+        <name>$PROJ_DIR$\..\Src\print_com.c</name>
       </file>
       <file>
         <name>$PROJ_DIR$\..\Src\stm32f1xx_it.c</name>
@@ -990,12 +993,6 @@
     <name>Drivers</name>
     <group>
       <name>BSP</name>
-      <group>
-        <name>Stm32F103C8</name>
-        <file>
-          <name>$PROJ_DIR$\..\..\STM32_Smart_V2.0_BSP\led.c</name>
-        </file>
-      </group>
       <group>
         <name>STM32F1xx_Nucleo</name>
         <file>

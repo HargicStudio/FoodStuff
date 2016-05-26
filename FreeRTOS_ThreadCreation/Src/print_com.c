@@ -36,9 +36,7 @@
   */
 
 /* Includes ------------------------------------------------------------------*/
-#include "main.h"
-#include "stm32f1xx_hal_msp.h"
-#include "AaInclude.h"
+#include "print_com.h"
 
 /** @addtogroup STM32F1xx_HAL_Examples
   * @{
@@ -66,13 +64,10 @@ UART_HandleTypeDef UartHandle;
 
 /* Private function prototypes -----------------------------------------------*/
 /* Private functions ---------------------------------------------------------*/
-static void GetBipAndSendByDMA(char* addr, u32 len);
-
 
 /** @defgroup HAL_MSP_Private_Functions
   * @{
   */
-
 
 
 /** 
@@ -89,7 +84,7 @@ static void GetBipAndSendByDMA(char* addr, u32 len);
  * @par History
  *      2016-5-21 Huang Shengda
  */  
-void StdUsartInit(void)
+void StdUsartInit()
 {
     /*##-1- Configure the UART peripheral ######################################*/
     /* Put the USART peripheral in the Asynchronous mode (UART Mode) */
@@ -112,9 +107,6 @@ void StdUsartInit(void)
         /* Initialization Error */
         return ;
     }
-
-    // register send out callback
-    AaSysLogGetBipRegister(GetBipAndSendByDMA);
 }
 
 /** 
@@ -131,12 +123,18 @@ void StdUsartInit(void)
  * @par History
  *      2016-5-21 Huang Shengda
  */  
-static void GetBipAndSendByDMA(char* addr, u32 len)
+void GetBipAndSendByDMA(char* addr, u32 len)
 {
     if (HAL_UART_Transmit_DMA(&UartHandle, (uint8_t *)addr, len) != HAL_OK)
     {
         /* Transfer error in transmission process */
     }
+}
+
+
+void GetBipAndSendByPolling(char* addr, u32 len)
+{
+    HAL_UART_Transmit(&UartHandle, (uint8_t *)addr, len, 0xFFFF);
 }
 
 
@@ -268,6 +266,43 @@ void HAL_UART_MspDeInit(UART_HandleTypeDef *huart)
 }
 
 /**
+  * @brief  Tx Transfer completed callback
+  * @param  UartHandle: UART handle. 
+  * @note   This example shows a simple way to report end of DMA Tx transfer, and 
+  *         you can add your own implementation. 
+  * @retval None
+  */
+void HAL_UART_TxCpltCallback(UART_HandleTypeDef *UartHandle)
+{
+  /* Set transmission flag: trasfer complete*/
+  AaSysLogSendCplt();
+}
+
+/**
+  * @brief  Rx Transfer completed callback
+  * @param  UartHandle: UART handle
+  * @note   This example shows a simple way to report end of DMA Rx transfer, and 
+  *         you can add your own implementation.
+  * @retval None
+  */
+void HAL_UART_RxCpltCallback(UART_HandleTypeDef *UartHandle)
+{
+  /* Set transmission flag: trasfer complete*/
+  
+}
+
+/**
+  * @brief  UART error callbacks
+  * @param  UartHandle: UART handle
+  * @note   This example shows a simple way to report transfer error, and you can
+  *         add your own implementation.
+  * @retval None
+  */
+void HAL_UART_ErrorCallback(UART_HandleTypeDef *UartHandle)
+{
+}
+
+/**
   * @brief  Retargets the C library printf function to the USART.
   * @param  None
   * @retval None
@@ -280,6 +315,8 @@ PUTCHAR_PROTOTYPE
 
   return ch;
 }
+
+
 
 
 

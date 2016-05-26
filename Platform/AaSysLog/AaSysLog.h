@@ -19,6 +19,7 @@ History:
 #include "cmsis_os.h"
 #include "glo_def.h"
 #include "AaInclude.h"
+#include "stm32f1xx_hal.h"
 
 
 
@@ -158,6 +159,23 @@ u8 AaSysLogSendCplt();
  * @par History
  *      2016-5-21 Huang Shengda
  */  
+u8 AaSysLogProcessPrintDefault();
+
+
+/** 
+ * This is a brief description. 
+ * This is a detail description. 
+ * @param[in]   inArgName input argument description. 
+ * @param[out]  outArgName output argument description.  
+ * @retval  
+ * @retval  
+ * @par 
+ *      
+ * @par 
+ *      
+ * @par History
+ *      2016-5-21 Huang Shengda
+ */  
 u8 AaSysLogProcessPrintStartup();
 
 /** 
@@ -174,23 +192,7 @@ u8 AaSysLogProcessPrintStartup();
  * @par History
  *      2016-5-21 Huang Shengda
  */  
-u8 AaSysLogProcessPrintRunThrPolling();
-
-/** 
- * This is a brief description. 
- * This is a detail description. 
- * @param[in]   inArgName input argument description. 
- * @param[out]  outArgName output argument description.  
- * @retval  
- * @retval  
- * @par 
- *      
- * @par 
- *      
- * @par History
- *      2016-5-21 Huang Shengda
- */  
-u8 AaSysLogProcessPrintRun();
+u8 AaSysLogProcessPrintRunning();
 
 
 

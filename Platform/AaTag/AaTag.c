@@ -142,7 +142,7 @@ u8 AaTagCreateDeamon()
 {
     osThreadDef(AaTagDeamon, AaTagDeamonThread, osPriorityHigh, 0, AATAGDEAMON_STACK_SIZE);
     
-    _aatagdeamon_id = AaThreadCreate(osThread(AaTagDeamon), _aatag_mng);
+    _aatagdeamon_id = AaThreadCreateStartup(osThread(AaTagDeamon), _aatag_mng);
     if(_aatagdeamon_id == NULL) {
         AaSysLogPrint(LOGLEVEL_ERR, FeatureTag, "%s %d: AaTagDeamon initialize failed",
                 __FUNCTION__, __LINE__);

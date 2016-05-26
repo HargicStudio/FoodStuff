@@ -50,26 +50,13 @@
 #include "cmsis_os.h"
 #include "AaInclude.h"
 #include <stdio.h>
-#include "led.h"
-#include "stm32f1xx_hal_msp.h"
 #include "feature_id.h"
 
 /* Private typedef -----------------------------------------------------------*/
 /* Private define ------------------------------------------------------------*/
-typedef enum
-{
-  THREAD_1 = 0,
-} Thread_TypeDef;
 /* Private macro -------------------------------------------------------------*/
 /* Private variables ---------------------------------------------------------*/
-osThreadId LEDThread1Handle;
-
-
-
-
 /* Private function prototypes -----------------------------------------------*/
-static void LED_Thread1(void const *argument);
-static void GetCCSOnlineTag();
 void SystemClock_Config(void);
 
 /* Private functions ---------------------------------------------------------*/
@@ -96,24 +83,9 @@ int main(void)
   /* Configure the System clock to 64 MHz */
   SystemClock_Config();
 
-  // Device initialize
-  StdUsartInit();
-  AaSysLogPrint(LOGLEVEL_INF, SystemStartup, "StdUart initialize success");
-  
-  LED_Init();
-
   // Platform compute environment initialize
   CCSDeamonCEInit();  
  
-  /* Thread 1 definition */
-  osThreadDef(THREAD_1, LED_Thread1, osPriorityNormal, 0, configMINIMAL_STACK_SIZE);
-    
-  /* Start thread 1 */
-  LEDThread1Handle = AaThreadCreate(osThread(THREAD_1), NULL);
-
-  //std_print_dbg("Startup\r\n");
-  AaSysLogPrint(LOGLEVEL_DBG, SystemStartup, "System started");
-
   /* Start scheduler */
   osKernelStart();
 
@@ -122,32 +94,6 @@ int main(void)
 
 }
 
-/**
-  * @brief  Toggle LED2 thread
-  * @param  thread not used
-  * @retval None
-  */
-static void LED_Thread1(void const *argument)
-{
-  (void) argument;
-
-  AaSysLogPrint(LOGLEVEL_DBG, SystemStartup, "LED_Thread1 started");
-
-  AaTagRegister(AATAG_CCS_DEAMON_ONLINE, GetCCSOnlineTag);
-
-  for (;;)
-  {
-      LED_Toggle();
-      osDelay(1000);
-      AaSysLogPrint(LOGLEVEL_DBG, SystemStartup, "System running");
-  }
-}
-
-
-static void GetCCSOnlineTag(u32 value)
-{
-    AaSysLogPrint(LOGLEVEL_DBG, SystemStartup, "get callback of ccs.online state changed %d", value);
-}
 
 /**
   * @brief  System Clock Configuration
@@ -201,42 +147,6 @@ void SystemClock_Config(void)
   }
 }
 
-/**
-  * @brief  Tx Transfer completed callback
-  * @param  UartHandle: UART handle. 
-  * @note   This example shows a simple way to report end of DMA Tx transfer, and 
-  *         you can add your own implementation. 
-  * @retval None
-  */
-void HAL_UART_TxCpltCallback(UART_HandleTypeDef *UartHandle)
-{
-  /* Set transmission flag: trasfer complete*/
-  AaSysLogSendCplt();
-}
-
-/**
-  * @brief  Rx Transfer completed callback
-  * @param  UartHandle: UART handle
-  * @note   This example shows a simple way to report end of DMA Rx transfer, and 
-  *         you can add your own implementation.
-  * @retval None
-  */
-void HAL_UART_RxCpltCallback(UART_HandleTypeDef *UartHandle)
-{
-  /* Set transmission flag: trasfer complete*/
-  
-}
-
-/**
-  * @brief  UART error callbacks
-  * @param  UartHandle: UART handle
-  * @note   This example shows a simple way to report transfer error, and you can
-  *         add your own implementation.
-  * @retval None
-  */
-void HAL_UART_ErrorCallback(UART_HandleTypeDef *UartHandle)
-{
-}
 
 
 #ifdef  USE_FULL_ASSERT

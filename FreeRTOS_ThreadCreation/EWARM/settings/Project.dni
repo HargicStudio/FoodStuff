@@ -9,7 +9,7 @@ TriggerName=main
 LimitSize=0
 ByteLimit=50
 [DebugChecksum]
-Checksum=143809898
+Checksum=-333073498
 [Exceptions]
 StopOnUncaught=_ 0
 StopOnThrow=_ 0
@@ -26,9 +26,9 @@ Bp0=_ 0 "EMUL_CODE" "{$PROJ_DIR$\..\..\Platform\std_usart.c}.148.5" 0 0 1 "" 0 "
 Bp1=_ 0 "EMUL_CODE" "{$PROJ_DIR$\..\..\Platform\std_usart.c}.152.1" 0 0 1 "" 0 "" 0
 Bp2=_ 0 "EMUL_CODE" "{$PROJ_DIR$\..\..\Platform\std_usart.c}.152.5" 0 0 1 "" 0 "" 0
 Bp3=_ 0 "EMUL_CODE" "{$PROJ_DIR$\..\..\Platform\AaSysLog\AaSysLog.c}.34.1" 0 0 1 "" 0 "" 0
-Bp4=_ 1 "EMUL_CODE" "{$PROJ_DIR$\..\..\Platform\CCSDeamon\CCSDeamon.c}.123.5" 0 0 1 "" 0 "" 0
-Bp5=_ 1 "EMUL_CODE" "{$PROJ_DIR$\..\..\Platform\CCSDeamon\CCSDeamon.c}.123.5" 0 0 1 "" 0 "" 0
-Bp6=_ 1 "EMUL_CODE" "{$PROJ_DIR$\..\..\Platform\AaTag\AaTag.c}.92.9" 0 0 1 "" 0 "" 0
+Bp4=_ 1 "EMUL_CODE" "{$PROJ_DIR$\..\..\Platform\AaSysLog\AaSysLog.c}.103.13" 0 0 1 "" 0 "" 0
+Bp5=_ 1 "EMUL_CODE" "{$PROJ_DIR$\..\..\Platform\AaSysLog\AaSysLog.c}.188.9" 0 0 1 "" 0 "" 0
+Bp6=_ 1 "EMUL_CODE" "{$PROJ_DIR$\..\..\Platform\AaSysLog\AaSysLog.c}.165.5" 0 0 1 "" 0 "" 0
 Count=7
 [Log file]
 LoggingEnabled=_ 0

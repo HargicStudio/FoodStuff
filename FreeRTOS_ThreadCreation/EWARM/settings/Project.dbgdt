@@ -34,7 +34,7 @@
         
         
       <ShowCodeCoverage>1</ShowCodeCoverage><ShowInstrProfiling>1</ShowInstrProfiling></Disassembly>
-    <Locals><col-names><item>Location</item><item>Type</item><item>Value</item><item>Variable</item></col-names><col-widths><item>150</item><item>100</item><item>209</item><item>132</item></col-widths></Locals><WATCH_1><expressions><item>_p_bip_buffer</item><item>_aathread_mng_head_ptr</item><item></item></expressions><col-names><item>Expression</item><item>Location</item><item>Type</item><item>Value</item></col-names><col-widths><item>140</item><item>97</item><item>100</item><item>260</item></col-widths></WATCH_1></Static>
+    <Locals><col-names><item>Location</item><item>Type</item><item>Value</item><item>Variable</item></col-names><col-widths><item>150</item><item>100</item><item>209</item><item>132</item></col-widths></Locals><WATCH_1><expressions><item>_p_bip_buffer</item><item>_aathread_mng_head_ptr</item><item/></expressions><col-names><item>Expression</item><item>Location</item><item>Type</item><item>Value</item></col-names><col-widths><item>140</item><item>97</item><item>100</item><item>260</item></col-widths></WATCH_1></Static>
     <Windows>
       
       

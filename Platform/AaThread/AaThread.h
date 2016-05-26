@@ -50,7 +50,10 @@ u8 AaThreadCEInit();
  * @par History
  *      2016-5-22 Huang Shengda
  */  
-osThreadId AaThreadCreate(const osThreadDef_t *t_def, void *arg);
+osThreadId AaThreadCreateStartScheduler(const osThreadDef_t *t_def, void *arg);
+
+osThreadId AaThreadCreateStartup(const osThreadDef_t *t_def, void *arg);
+
 
 /** 
  * This is a brief description. 

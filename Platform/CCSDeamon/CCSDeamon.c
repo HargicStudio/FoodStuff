@@ -12,6 +12,8 @@ History:
 #include <stdarg.h>
 #include <stdbool.h>
 #include "AaInclude.h"
+#include "print_com.h"
+#include "led.h"
 
 
 
@@ -52,12 +54,35 @@ static void CCSDeamonThread(void const *arg);
 u8 CCSDeamonCEInit()
 {
     // WARNING: don't change the order
+
+    // @first because all service should depand on log
+    StdUsartInit();
+
+    // bip buffer has not construct because of memery heap do not setup,
+    // so aasyslog should use stdio print interface
+    AaSysLogProcessPrintDefault();
+    
     AaThreadCEInit();
     AaMemHeapCEInit(_mem_heap_buf, &_mem_heap_buf[AAMEM_HEAP_BUFFER_SIZE - 1]);
     AaSysLogCEInit();
+
+    // after heap momery and bip buffer initialized, log can be input bip buffer
+    AaSysLogProcessPrintStartup();
+
+    // alternative CCS service initialization
     AaTagCEInit();
 
     CCSDeamonCreateThread();
+    AaSysLogCreateDeamon();
+    AaTagCreateDeamon();
+    // start system led task
+    StartRunLedTask();
+
+    AaSysLogPrint(LOGLEVEL_DBG, SystemStartup, "System started");
+
+    // as scheduler started, print can be print into bipbuffer and send out by DMA
+    AaSysLogGetBipRegister(GetBipAndSendByDMA);
+    AaSysLogProcessPrintRunning();
     
     return 0;
 }
@@ -81,7 +106,7 @@ static u8 CCSDeamonCreateThread()
 {
     osThreadDef(CCSDeamon, CCSDeamonThread, osPriorityHigh, 0, CCSDEAMON_STACK_SIZE);
     
-    _ccsdeamon_id = AaThreadCreate(osThread(CCSDeamon), NULL);
+    _ccsdeamon_id = AaThreadCreateStartup(osThread(CCSDeamon), NULL);
     if(_ccsdeamon_id == NULL) {
         AaSysLogPrint(LOGLEVEL_ERR, FeatureCCS, "%s %d: CCS Deamon initialize failed",
                 __FUNCTION__, __LINE__);
@@ -119,9 +144,6 @@ static void CCSDeamonThread(void const *arg)
     AaTagCreate(AATAG_CCS_STARTUP, 0);
 
     // start ccs service thread
-//    AaSysLogCreateDeamon();
-    AaSysLogProcessPrintRunThrPolling();
-    AaTagCreateDeamon();
 
     // start ccs config
     AaTagSetValue(AATAG_CCS_STARTUP, 1);

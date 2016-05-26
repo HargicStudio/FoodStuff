@@ -98,7 +98,7 @@ u8 AaThreadCEInit()
  * @par History
  *      2016-5-21 Huang Shengda
  */  
-osThreadId AaThreadCreate(const osThreadDef_t *t_def, void *arg)
+osThreadId AaThreadCreateStartScheduler(const osThreadDef_t *t_def, void *arg)
 {
     osMutexWait(_aathread_mutex_id, osWaitForever);
 
@@ -155,6 +155,74 @@ osThreadId AaThreadCreate(const osThreadDef_t *t_def, void *arg)
     }
 
     osMutexRelease(_aathread_mutex_id);
+
+    return t_id;
+}
+
+/** 
+ * This is a brief description. 
+ * This function should first been called after AaMemInit
+ * @param[in]   inArgName input argument description. 
+ * @param[out]  outArgName output argument description.  
+ * @retval  
+ * @retval  
+ * @par 
+ *      
+ * @par 
+ *      
+ * @par History
+ *      2016-5-21 Huang Shengda
+ */  
+osThreadId AaThreadCreateStartup(const osThreadDef_t *t_def, void *arg)
+{
+    SAaThread* new_ptr;
+    SAaThread* cur_ptr;
+
+    osThreadId t_id = osThreadCreate(t_def, arg);
+    if(t_id == NULL) {
+        return NULL;
+    }
+    
+    cur_ptr = _aathread_mng_head_ptr;
+    
+    if(cur_ptr == NULL) {    // this is the first thread
+        new_ptr = AaMemMalloc(sizeof(SAaThread));
+        if(new_ptr == NULL) {
+            return NULL;
+        }
+        strcpy(new_ptr->name, t_def->name);
+        new_ptr->pthread = t_def->pthread;
+        new_ptr->tpriority = t_def->tpriority;
+        new_ptr->instances = t_def->instances;
+        new_ptr->stacksize = t_def->stacksize;
+        new_ptr->t_id = t_id;
+        new_ptr->next = NULL;
+        new_ptr->prev = NULL;
+
+        _aathread_mng_head_ptr = new_ptr;
+    }
+    else {
+        
+        while(cur_ptr->next != NULL) {
+            cur_ptr = cur_ptr->next;
+        }
+
+        // get the last mng_ptr
+        new_ptr = AaMemMalloc(sizeof(SAaThread));
+        if(new_ptr == NULL) {
+            return NULL;
+        }
+        strcpy(new_ptr->name, t_def->name);
+        new_ptr->pthread = t_def->pthread;
+        new_ptr->tpriority = t_def->tpriority;
+        new_ptr->instances = t_def->instances;
+        new_ptr->stacksize = t_def->stacksize;
+        new_ptr->t_id = t_id;
+        new_ptr->next = NULL;
+        new_ptr->prev = cur_ptr;
+
+        cur_ptr->next = new_ptr;
+    }
 
     return t_id;
 }
