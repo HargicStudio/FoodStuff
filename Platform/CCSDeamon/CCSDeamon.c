@@ -14,7 +14,7 @@ History:
 #include "AaInclude.h"
 #include "print_com.h"
 #include "led.h"
-
+#include "sense.h"
 
 
 #define CCSDEAMON_STACK_SIZE        0x80
@@ -61,7 +61,8 @@ u8 CCSDeamonCEInit()
     // bip buffer has not construct because of memery heap do not setup,
     // so aasyslog should use stdio print interface
     AaSysLogProcessPrintDefault();
-    
+
+    // platform initialize
     AaThreadCEInit();
     AaMemHeapCEInit(_mem_heap_buf, &_mem_heap_buf[AAMEM_HEAP_BUFFER_SIZE - 1]);
     AaSysLogCEInit();
@@ -75,8 +76,13 @@ u8 CCSDeamonCEInit()
     CCSDeamonCreateThread();
     AaSysLogCreateDeamon();
     AaTagCreateDeamon();
-    // start system led task
+    // start application task
     StartRunLedTask();
+    StartSenseTask();
+
+    // create global tag
+    AaTagCreate(AATAG_CCS_DEAMON_ONLINE, 0);
+    AaTagCreate(AATAG_CCS_STARTUP, 0);
 
     AaSysLogPrint(LOGLEVEL_DBG, SystemStartup, "System started");
 
@@ -136,16 +142,15 @@ static void CCSDeamonThread(void const *arg)
     (void) arg;
 
     AaSysLogPrint(LOGLEVEL_INF, FeatureCCS, "CCSDeamonThread started");
+    AaTagSetValue(AATAG_CCS_DEAMON_ONLINE, 1);
 
     // initialize ccs service which need in CCSDeamon thread
-    AaTagCreate(AATAG_CCS_DEAMON_ONLINE, 0);
-    AaTagSetValue(AATAG_CCS_DEAMON_ONLINE, 1);
     
-    AaTagCreate(AATAG_CCS_STARTUP, 0);
 
     // start ccs service thread
 
-    // start ccs config
+
+
     AaTagSetValue(AATAG_CCS_STARTUP, 1);
 
     u8 i = 0;

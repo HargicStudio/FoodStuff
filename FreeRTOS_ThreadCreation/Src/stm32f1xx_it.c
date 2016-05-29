@@ -50,6 +50,7 @@
 #include "stm32f1xx_it.h"
 #include "cmsis_os.h"
 #include "print_com.h"
+#include "sense.h"
 
 /* Private typedef -----------------------------------------------------------*/
 /* Private define ------------------------------------------------------------*/
@@ -57,6 +58,8 @@
 /* Private variables ---------------------------------------------------------*/
 /* UART handler declared in "_hal_msp.c" file */
 extern UART_HandleTypeDef UartHandle;
+
+extern ADC_HandleTypeDef    AdcHandle;
 
 /* Private function prototypes -----------------------------------------------*/
 /* Private functions ---------------------------------------------------------*/
@@ -188,6 +191,27 @@ void USARTx_IRQHandler(void)
 {
   HAL_UART_IRQHandler(&UartHandle);
 }
+
+/**
+  * @brief  This function handles ADC interrupt request.
+  * @param  None
+  * @retval None
+  */
+void ADCx_IRQHandler(void)
+{
+  HAL_ADC_IRQHandler(&AdcHandle);
+}
+
+/**
+* @brief  This function handles DMA interrupt request.
+* @param  None
+* @retval None
+*/
+void ADCx_DMA_IRQHandler(void)
+{
+  HAL_DMA_IRQHandler(AdcHandle.DMA_Handle);
+}
+
 
 /**
   * @brief  This function handles PPP interrupt request.

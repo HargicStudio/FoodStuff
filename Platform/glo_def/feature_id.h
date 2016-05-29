@@ -26,6 +26,8 @@ History:
 #define FeatureLog      "CCSLog"
 #define FeatureMem      "CCSMem"
 
+#define FeatureSense    "Senses"
+
 
 
 
