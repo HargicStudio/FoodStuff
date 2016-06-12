@@ -79,6 +79,7 @@ u8 CCSDeamonCEInit()
     // start application task
     StartRunLedTask();
     StartSenseTask();
+    StartRunTsc3200Task();
 
     // create global tag
     AaTagCreate(AATAG_CCS_DEAMON_ONLINE, 0);
@@ -87,7 +88,7 @@ u8 CCSDeamonCEInit()
     AaSysLogPrint(LOGLEVEL_DBG, SystemStartup, "System started");
 
     // as scheduler started, print can be print into bipbuffer and send out by DMA
-    AaSysLogGetBipRegister(GetBipAndSendByDMA);
+    AaSysLogGetBipRegister(GetBipAndSendByIT);
     AaSysLogProcessPrintRunning();
     
     return 0;
@@ -158,7 +159,7 @@ static void CCSDeamonThread(void const *arg)
     for(;;) {
         osDelay(5000);
         AaMemList();
-        AaTagSetValue(AATAG_CCS_DEAMON_ONLINE, i++);
+//        AaTagSetValue(AATAG_CCS_DEAMON_ONLINE, i++);
     }
 }
 

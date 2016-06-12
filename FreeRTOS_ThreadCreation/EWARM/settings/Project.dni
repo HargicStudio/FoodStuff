@@ -9,7 +9,7 @@ TriggerName=main
 LimitSize=0
 ByteLimit=50
 [DebugChecksum]
-Checksum=135488247
+Checksum=-2033815358
 [Exceptions]
 StopOnUncaught=_ 0
 StopOnThrow=_ 0
@@ -19,16 +19,73 @@ ShowArgs=0
 MixedMode=1
 [JLinkDriver]
 CStepIntDis=_ 0
+[CodeCoverage]
+Enabled=_ 0
+[SWOTraceHWSettings]
+OverrideDefaultClocks=0
+CpuClock=64000000
+ClockAutoDetect=1
+ClockWanted=6000000
+JtagSpeed=3000000
+Prescaler=21
+TimeStampPrescIndex=0
+TimeStampPrescData=0
+PcSampCYCTAP=1
+PcSampPOSTCNT=15
+PcSampIndex=0
+DataLogMode=0
+ITMportsEnable=0
+ITMportsTermIO=0
+ITMportsLogFile=0
+ITMlogFile=$PROJ_DIR$\ITM.log
+[Trace2]
+Enabled=0
+ShowSource=0
+[SWOTraceWindow]
+PcSampling=0
+InterruptLogs=0
+ForcedTimeStamps=0
+EventCPI=0
+EventEXC=0
+EventFOLD=0
+EventLSU=0
+EventSLEEP=0
+[PowerLog]
+LogEnabled=0
+GraphEnabled=0
+ShowTimeLog=1
+ShowTimeSum=0
+Title_0=I0
+Symbol_0=0 4 1
+LiveEnabled=0
+LiveFile=PowerLogLive.log
+[DataLog]
+LogEnabled=0
+SumEnabled=0
+GraphEnabled=0
+ShowTimeLog=1
+ShowTimeSum=1
+[EventLog]
+LogEnabled=0
+SumEnabled=0
+GraphEnabled=0
+ShowTimeLog=1
+ShowTimeSum=1
+SumSortOrder=0
+[InterruptLog]
+LogEnabled=0
+SumEnabled=0
+GraphEnabled=0
+ShowTimeLog=1
+ShowTimeSum=1
+SumSortOrder=0
 [Disassemble mode]
 mode=0
 [Breakpoints2]
-Bp0=_ 0 "EMUL_CODE" "{$PROJ_DIR$\..\..\Platform\std_usart.c}.148.5" 0 0 1 "" 0 "" 0
-Bp1=_ 0 "EMUL_CODE" "{$PROJ_DIR$\..\..\Platform\std_usart.c}.152.1" 0 0 1 "" 0 "" 0
-Bp2=_ 0 "EMUL_CODE" "{$PROJ_DIR$\..\..\Platform\std_usart.c}.152.5" 0 0 1 "" 0 "" 0
-Bp3=_ 0 "EMUL_CODE" "{$PROJ_DIR$\..\..\Platform\AaSysLog\AaSysLog.c}.34.1" 0 0 1 "" 0 "" 0
-Bp4=_ 1 "EMUL_CODE" "{$PROJ_DIR$\..\Src\sense.c}.94.9" 0 0 1 "" 0 "" 0
-Bp5=_ 0 "EMUL_CODE" "{$PROJ_DIR$\..\Src\sense.c}.347.5" 0 0 1 "" 0 "" 0
-Count=6
+Bp0=_ 0 "EMUL_CODE" "" 0 0 1 "" 0 "" 0
+Bp1=_ 0 "EMUL_CODE" "" 0 0 1 "" 0 "" 0
+Bp2=_ 0 "EMUL_CODE" "" 0 0 1 "" 0 "" 0
+Count=3
 [Log file]
 LoggingEnabled=_ 0
 LogFile=_ ""
@@ -41,9 +98,13 @@ Count=0
 SuppressDialog=0
 [CallStackLog]
 Enabled=0
+[PowerProbe]
+Frequency=10000
+Probe0=I0
+ProbeSetup0=2 1 1 2 0 0
 [DriverProfiling]
 Enabled=0
-Mode=0
+Mode=3
 Graph=0
 Symbiont=0
 Exclusions=

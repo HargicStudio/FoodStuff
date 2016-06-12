@@ -18,6 +18,7 @@ History:
 
 
 
+/** it's better to keep string 6 character */  
 
 #define SystemStartup   "System"
 #define FeatureCCS      "CCSDmn"
@@ -26,9 +27,9 @@ History:
 #define FeatureLog      "CCSLog"
 #define FeatureMem      "CCSMem"
 
-#define FeatureSense    "Senses"
-
-
+#define FeatureSense    "SenseF"
+#define FeatureOlcd     "OlcdFe"
+#define FeatureTsc3200  "Tsc320"
 
 
 #ifdef __cplusplus

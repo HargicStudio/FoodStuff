@@ -71,6 +71,11 @@ void USARTx_DMA_RX_IRQHandler(void);
 void USARTx_DMA_TX_IRQHandler(void);
 void USARTx_IRQHandler(void);
 
+void ADCx_IRQHandler(void);
+void ADCx_DMA_IRQHandler(void);
+
+void SPIx_IRQHandler(void);
+
 
 #ifdef __cplusplus
 }

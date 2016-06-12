@@ -96,7 +96,7 @@ static void AaSysLogDeamonThread(void const *arg)
         if(evt.status == osEventSignal && evt.value.signals == SIG_BIT_TX) {
             
             block_addr = CBipBuffer_Get(_p_bip_buffer, &block_size);
-            if(block_addr == NULL) {
+            if(block_addr == NULL || block_size == 0) {
                 continue;
             }
 
@@ -193,6 +193,7 @@ u8 AaSysLogCEInit()
     
     AaSysLogPrint(LOGLEVEL_DBG, FeatureLog, "get _p_bip_buffer pointer %p", _p_bip_buffer);
     CBipBuffer_Construct(_p_bip_buffer, AASYSLOG_BIPBUFFER_SIZE);
+    AaSysLogPrint(LOGLEVEL_DBG, FeatureLog, "create _p_bip_buffer success");
 
 
     _aasyslog_mutex_id = osMutexCreate(osMutex(aasyslog_mutex));
@@ -210,7 +211,7 @@ u8 AaSysLogCEInit()
                 __FUNCTION__, __LINE__);
         return 3;
     }
-    AaSysLogPrint(LOGLEVEL_DBG, FeatureLog, "create aasyslog_mutex success");
+    AaSysLogPrint(LOGLEVEL_DBG, FeatureLog, "create aasyslog_sendcplt_sem success");
     
 
     _print_level = LOGLEVEL_ALL;

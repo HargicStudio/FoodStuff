@@ -99,7 +99,7 @@
         </option>
         <option>
           <name>OGChipSelectEditMenu</name>
-          <state>STM32F103x8	ST STM32F103x8</state>
+          <state>STM32F103xC	ST STM32F103xC</state>
         </option>
         <option>
           <name>GenLowLevelInterface</name>
@@ -173,7 +173,7 @@
         <option>
           <name>CCDefines</name>
           <state>USE_HAL_DRIVER</state>
-          <state>STM32F103xB</state>
+          <state>STM32F103xE</state>
         </option>
         <option>
           <name>CCPreprocFile</name>
@@ -727,7 +727,7 @@
         </option>
         <option>
           <name>IlinkIcfFile</name>
-          <state>$PROJ_DIR$\stm32f103xb_flash.icf</state>
+          <state>$PROJ_DIR$\stm32f103xe_flash.icf</state>
         </option>
         <option>
           <name>IlinkIcfFileSlave</name>
@@ -965,6 +965,12 @@
       <name>EWARM</name>
       <file>
         <name>$PROJ_DIR$\startup_stm32f103xb.s</name>
+        <excluded>
+          <configuration>STM32F103RB_Nucleo</configuration>
+        </excluded>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\..\..\..\..\..\Drivers\CMSIS\Device\ST\STM32F1xx\Source\Templates\iar\startup_stm32f103xe.s</name>
       </file>
     </group>
     <group>
@@ -983,6 +989,9 @@
       </file>
       <file>
         <name>$PROJ_DIR$\..\Src\stm32f1xx_it.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\Src\tsc3200.c</name>
       </file>
     </group>
   </group>
@@ -1034,6 +1043,9 @@
       </file>
       <file>
         <name>$PROJ_DIR$\..\..\..\..\..\..\Drivers\STM32F1xx_HAL_Driver\Src\stm32f1xx_hal_rcc_ex.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\..\..\..\..\..\Drivers\STM32F1xx_HAL_Driver\Src\stm32f1xx_hal_spi.c</name>
       </file>
       <file>
         <name>$PROJ_DIR$\..\..\..\..\..\..\Drivers\STM32F1xx_HAL_Driver\Src\stm32f1xx_hal_uart.c</name>

@@ -59,7 +59,9 @@
 /* UART handler declared in "_hal_msp.c" file */
 extern UART_HandleTypeDef UartHandle;
 
-extern ADC_HandleTypeDef    AdcHandle;
+extern ADC_HandleTypeDef AdcHandle;
+
+extern SPI_HandleTypeDef SpiHandle;
 
 /* Private function prototypes -----------------------------------------------*/
 /* Private functions ---------------------------------------------------------*/
@@ -156,29 +158,29 @@ void SysTick_Handler(void)
 /*  available peripheral interrupt handler's name please refer to the startup */
 /*  file (startup_stm32f1xx.s).                                               */
 /******************************************************************************/
-/**
-  * @brief  This function handles DMA RX interrupt request.
-  * @param  None
-  * @retval None
-  * @Note   This function is redefined in "main.h" and related to DMA stream
-  *         used for USART data transmission
-  */
-void USARTx_DMA_RX_IRQHandler(void)
-{
-  HAL_DMA_IRQHandler(UartHandle.hdmarx);
-}
+// /**
+//   * @brief  This function handles DMA RX interrupt request.
+//   * @param  None
+//   * @retval None
+//   * @Note   This function is redefined in "main.h" and related to DMA stream
+//   *         used for USART data transmission
+//   */
+// void USARTx_DMA_RX_IRQHandler(void)
+// {
+//   HAL_DMA_IRQHandler(UartHandle.hdmarx);
+// }
 
-/**
-  * @brief  This function handles DMA TX interrupt request.
-  * @param  None
-  * @retval None
-  * @Note   This function is redefined in "main.h" and related to DMA stream
-  *         used for USART data reception
-  */
-void USARTx_DMA_TX_IRQHandler(void)
-{
-  HAL_DMA_IRQHandler(UartHandle.hdmatx);
-}
+// /**
+//   * @brief  This function handles DMA TX interrupt request.
+//   * @param  None
+//   * @retval None
+//   * @Note   This function is redefined in "main.h" and related to DMA stream
+//   *         used for USART data reception
+//   */
+// void USARTx_DMA_TX_IRQHandler(void)
+// {
+//   HAL_DMA_IRQHandler(UartHandle.hdmatx);
+// }
 
 /**
   * @brief  This function handles USARTx interrupt request.  
@@ -212,6 +214,25 @@ void ADCx_DMA_IRQHandler(void)
   HAL_DMA_IRQHandler(AdcHandle.DMA_Handle);
 }
 
+/**
+  * @brief  This function handles SPI interrupt request.
+  * @param  None
+  * @retval None
+  */
+void SPIx_IRQHandler(void)
+{
+  HAL_SPI_IRQHandler(&SpiHandle);
+}
+
+/**
+  * @brief  This function handles EXTI9_5 interrupt request.
+  * @param  None
+  * @retval None
+  */
+void EXTI9_5_IRQHandler(void)
+{
+  HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_8);
+}
 
 /**
   * @brief  This function handles PPP interrupt request.

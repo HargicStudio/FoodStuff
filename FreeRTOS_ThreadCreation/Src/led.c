@@ -19,6 +19,10 @@ History:
 osThreadId _runled_id;
 
 
+#define LED_PIN                         GPIO_PIN_10
+#define LED_GPIO_PORT                   GPIOB
+
+
 
 static void LedDeviceInit(void);
 static void LedOn();
@@ -39,11 +43,11 @@ static void RunLedThread(void const *argument)
 
   AaSysLogPrint(LOGLEVEL_INF, SystemStartup, "RunLedThread started");
 
-  AaTagRegister(AATAG_CCS_DEAMON_ONLINE, GetCCSOnlineTag);
+//  AaTagRegister(AATAG_CCS_DEAMON_ONLINE, GetCCSOnlineTag);
 
   for (;;)
   {
-      LedToggle();
+//      LedToggle();
       osDelay(1000);
       AaSysLogPrint(LOGLEVEL_DBG, SystemStartup, "System running");
   }
@@ -74,14 +78,14 @@ static void LedDeviceInit()
   GPIO_InitTypeDef  gpioinitstruct = {0};
   
   /* Enable the GPIO_LED Clock */
-  __HAL_RCC_GPIOC_CLK_ENABLE();
+  __HAL_RCC_GPIOB_CLK_ENABLE();
 
   /* Configure the GPIO_LED pin */
-  gpioinitstruct.Pin    = GPIO_PIN_13;
+  gpioinitstruct.Pin    = LED_PIN;
   gpioinitstruct.Mode   = GPIO_MODE_OUTPUT_PP;
-  gpioinitstruct.Pull   = GPIO_NOPULL;
+  gpioinitstruct.Pull   = GPIO_PULLUP;
   gpioinitstruct.Speed  = GPIO_SPEED_FREQ_HIGH;
-  HAL_GPIO_Init(GPIOC, &gpioinitstruct);
+  HAL_GPIO_Init(LED_GPIO_PORT, &gpioinitstruct);
 
   /* Reset PIN to switch off the LED */
   LedOff();
@@ -97,7 +101,7 @@ static void LedDeviceInit()
   */
 static void LedOn()
 {
-  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_13, GPIO_PIN_RESET); 
+  HAL_GPIO_WritePin(LED_GPIO_PORT, LED_PIN, GPIO_PIN_RESET); 
 }
 
 /**
@@ -107,7 +111,7 @@ static void LedOn()
   */
 static void LedOff()
 {
-  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_13, GPIO_PIN_SET); 
+  HAL_GPIO_WritePin(LED_GPIO_PORT, LED_PIN, GPIO_PIN_SET); 
 }
 
 /**
@@ -117,7 +121,7 @@ static void LedOff()
   */
 static void LedToggle()
 {
-  HAL_GPIO_TogglePin(GPIOC, GPIO_PIN_13);
+  HAL_GPIO_TogglePin(LED_GPIO_PORT, LED_PIN);
 }
 
 

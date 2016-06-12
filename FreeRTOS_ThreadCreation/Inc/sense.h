@@ -24,12 +24,12 @@ extern "C" {
 #define ADCx_RELEASE_RESET()            __HAL_RCC_ADC1_RELEASE_RESET()
 
 /* Definition of ADCx channels */
-#define ADCx_CHANNELa                   ADC_CHANNEL_0
+#define ADCx_CHANNELa                   ADC_CHANNEL_1
 
 /* Definition of ADCx channels pins */
 #define ADCx_CHANNELa_GPIO_CLK_ENABLE() __HAL_RCC_GPIOA_CLK_ENABLE()
 #define ADCx_CHANNELa_GPIO_PORT         GPIOA
-#define ADCx_CHANNELa_PIN               GPIO_PIN_0
+#define ADCx_CHANNELa_PIN               GPIO_PIN_1
 
 /* Definition of ADCx DMA resources */
 #define ADCx_DMA_CLK_ENABLE()           __HAL_RCC_DMA1_CLK_ENABLE()
@@ -41,6 +41,28 @@ extern "C" {
 /* Definition of ADCx NVIC resources */
 #define ADCx_IRQn                       ADC1_2_IRQn
 #define ADCx_IRQHandler                 ADC1_2_IRQHandler
+
+
+/* User can use this section to tailor SPIx instance used and associated 
+   resources */
+/* Definition for SPIx clock resources */
+#define SPIx                             SPI1
+#define SPIx_CLK_ENABLE()                __HAL_RCC_SPI1_CLK_ENABLE()
+#define SPIx_SCK_GPIO_CLK_ENABLE()       __HAL_RCC_GPIOA_CLK_ENABLE()
+#define SPIx_MISO_GPIO_CLK_ENABLE()      __HAL_RCC_GPIOA_CLK_ENABLE()
+#define SPIx_MOSI_GPIO_CLK_ENABLE()      __HAL_RCC_GPIOA_CLK_ENABLE()
+
+/* Definition for SPIx Pins */
+#define SPIx_SCK_PIN                     GPIO_PIN_5
+#define SPIx_SCK_GPIO_PORT               GPIOA
+#define SPIx_MISO_PIN                    GPIO_PIN_6
+#define SPIx_MISO_GPIO_PORT              GPIOA
+#define SPIx_MOSI_PIN                    GPIO_PIN_7
+#define SPIx_MOSI_GPIO_PORT              GPIOA
+
+/* Definition for SPIx's NVIC */
+#define SPIx_IRQn                        SPI1_IRQn
+#define SPIx_IRQHandler                  SPI1_IRQHandler
 
 
 
