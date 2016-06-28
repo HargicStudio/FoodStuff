@@ -48,14 +48,14 @@ void TCS3200_whitebalance(void);
 u16 TCS3200_RED(void);
 u16 TCS3200_GREEN(void);
 u16 TCS3200_BLUE(void);
-static void TCS3200_OutGpioConfig(void);
+
 
 /**
   * @brief  start TSC3200 from system level
   * @param  none
   * @retval None
   */
-void RunTsc3200Thread();
+void StartRunTsc3200Task();
 
 
 

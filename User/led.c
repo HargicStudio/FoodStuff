@@ -19,7 +19,7 @@ History:
 osThreadId _runled_id;
 
 
-#define LED_PIN                         GPIO_PIN_10
+#define LED_PIN                         GPIO_PIN_9
 #define LED_GPIO_PORT                   GPIOB
 
 
@@ -47,7 +47,7 @@ static void RunLedThread(void const *argument)
 
   for (;;)
   {
-//      LedToggle();
+      LedToggle();
       osDelay(1000);
       AaSysLogPrint(LOGLEVEL_DBG, SystemStartup, "System running");
   }

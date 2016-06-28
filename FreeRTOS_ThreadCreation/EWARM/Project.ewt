@@ -100,22 +100,25 @@
     <group>
       <name>User</name>
       <file>
-        <name>$PROJ_DIR$\..\Src\led.c</name>
+        <name>$PROJ_DIR$\..\..\User\fastcheck.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\..\User\led.c</name>
       </file>
       <file>
         <name>$PROJ_DIR$\..\Src\main.c</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\Src\print_com.c</name>
+        <name>$PROJ_DIR$\..\..\User\print_com.c</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\Src\sense.c</name>
+        <name>$PROJ_DIR$\..\Src\stm32f1xx_hal_msp.c</name>
       </file>
       <file>
         <name>$PROJ_DIR$\..\Src\stm32f1xx_it.c</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\Src\tsc3200.c</name>
+        <name>$PROJ_DIR$\..\..\User\tsc3200.c</name>
       </file>
     </group>
   </group>

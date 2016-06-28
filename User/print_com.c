@@ -60,7 +60,7 @@
 
 /* Private variables ---------------------------------------------------------*/
 // Uart type
-UART_HandleTypeDef UartHandle;
+UART_HandleTypeDef UartHandle_dbg;
 
 /* Private function prototypes -----------------------------------------------*/
 /* Private functions ---------------------------------------------------------*/
@@ -94,15 +94,15 @@ void StdUsartInit()
       - Parity      = ODD parity
       - BaudRate    = 9600 baud
       - Hardware flow control disabled (RTS and CTS signals) */
-    UartHandle.Instance        = USARTx;
+    UartHandle_dbg.Instance        = USART_DBG;
 
-    UartHandle.Init.BaudRate   = 115200;
-    UartHandle.Init.WordLength = UART_WORDLENGTH_8B;
-    UartHandle.Init.StopBits   = UART_STOPBITS_1;
-    UartHandle.Init.Parity     = UART_PARITY_NONE;
-    UartHandle.Init.HwFlowCtl  = UART_HWCONTROL_NONE;
-    UartHandle.Init.Mode       = UART_MODE_TX_RX;
-    if (HAL_UART_Init(&UartHandle) != HAL_OK)
+    UartHandle_dbg.Init.BaudRate   = 115200;
+    UartHandle_dbg.Init.WordLength = UART_WORDLENGTH_8B;
+    UartHandle_dbg.Init.StopBits   = UART_STOPBITS_1;
+    UartHandle_dbg.Init.Parity     = UART_PARITY_NONE;
+    UartHandle_dbg.Init.HwFlowCtl  = UART_HWCONTROL_NONE;
+    UartHandle_dbg.Init.Mode       = UART_MODE_TX_RX;
+    if (HAL_UART_Init(&UartHandle_dbg) != HAL_OK)
     {
         /* Initialization Error */
         return ;
@@ -125,7 +125,7 @@ void StdUsartInit()
  */  
 void GetBipAndSendByDMA(char* addr, u32 len)
 {
-    if (HAL_UART_Transmit_DMA(&UartHandle, (uint8_t *)addr, len) != HAL_OK)
+    if (HAL_UART_Transmit_DMA(&UartHandle_dbg, (uint8_t *)addr, len) != HAL_OK)
     {
         /* Transfer error in transmission process */
     }
@@ -133,14 +133,14 @@ void GetBipAndSendByDMA(char* addr, u32 len)
 
 void GetBipAndSendByIT(char* addr, u32 len)
 {
-    if(HAL_UART_Transmit_IT(&UartHandle, (uint8_t *)addr, len) != HAL_OK) {
+    if(HAL_UART_Transmit_IT(&UartHandle_dbg, (uint8_t *)addr, len) != HAL_OK) {
         /* Transfer error in transmission process */
     }
 }
 
 void GetBipAndSendByPolling(char* addr, u32 len)
 {
-    if(HAL_UART_Transmit(&UartHandle, (uint8_t *)addr, len, 0xFFFF) != HAL_OK) 
+    if(HAL_UART_Transmit(&UartHandle_dbg, (uint8_t *)addr, len, 0xFFFF) != HAL_OK) 
     {
         /* Transfer error in transmission process */
     }
@@ -157,7 +157,7 @@ void GetBipAndSendByPolling(char* addr, u32 len)
   * @param huart: UART handle pointer
   * @retval None
   */
-void HAL_UART_MspInit(UART_HandleTypeDef *huart)
+void HAL_UART_DBG_MspInit(UART_HandleTypeDef *huart)
 {
   static DMA_HandleTypeDef hdma_tx;
   static DMA_HandleTypeDef hdma_rx;
@@ -166,74 +166,74 @@ void HAL_UART_MspInit(UART_HandleTypeDef *huart)
   
   /*##-1- Enable peripherals and GPIO Clocks #################################*/
   /* Enable GPIO TX/RX clock */
-  USARTx_TX_GPIO_CLK_ENABLE();
-  USARTx_RX_GPIO_CLK_ENABLE();
+  USART_DBG_TX_GPIO_CLK_ENABLE();
+  USART_DBG_RX_GPIO_CLK_ENABLE();
 
 
-  /* Enable USARTx clock */
-  USARTx_CLK_ENABLE();
+  /* Enable USART_DBG clock */
+  USART_DBG_CLK_ENABLE();
 
   /* Enable DMA clock */
-  // DMAx_CLK_ENABLE();
+  DMA_DBG_CLK_ENABLE();
   
   /*##-2- Configure peripheral GPIO ##########################################*/  
   /* UART TX GPIO pin configuration  */
-  GPIO_InitStruct.Pin       = USARTx_TX_PIN;
+  GPIO_InitStruct.Pin       = USART_DBG_TX_PIN;
   GPIO_InitStruct.Mode      = GPIO_MODE_AF_PP;
   GPIO_InitStruct.Pull      = GPIO_PULLUP;
   GPIO_InitStruct.Speed     = GPIO_SPEED_FREQ_HIGH;
 
-  HAL_GPIO_Init(USARTx_TX_GPIO_PORT, &GPIO_InitStruct);
+  HAL_GPIO_Init(USART_DBG_TX_GPIO_PORT, &GPIO_InitStruct);
 
   /* UART RX GPIO pin configuration  */
-  GPIO_InitStruct.Pin = USARTx_RX_PIN;
+  GPIO_InitStruct.Pin = USART_DBG_RX_PIN;
   GPIO_InitStruct.Mode      = GPIO_MODE_INPUT;
 
-  HAL_GPIO_Init(USARTx_RX_GPIO_PORT, &GPIO_InitStruct);
+  HAL_GPIO_Init(USART_DBG_RX_GPIO_PORT, &GPIO_InitStruct);
 
-  // /*##-3- Configure the DMA ##################################################*/
-  // /* Configure the DMA handler for Transmission process */
-  // hdma_tx.Instance                 = USARTx_TX_DMA_CHANNEL;
-  // hdma_tx.Init.Direction           = DMA_MEMORY_TO_PERIPH;
-  // hdma_tx.Init.PeriphInc           = DMA_PINC_DISABLE;
-  // hdma_tx.Init.MemInc              = DMA_MINC_ENABLE;
-  // hdma_tx.Init.PeriphDataAlignment = DMA_PDATAALIGN_BYTE;
-  // hdma_tx.Init.MemDataAlignment    = DMA_MDATAALIGN_BYTE;
-  // hdma_tx.Init.Mode                = DMA_NORMAL;
-  // hdma_tx.Init.Priority            = DMA_PRIORITY_LOW;
+  /*##-3- Configure the DMA ##################################################*/
+  /* Configure the DMA handler for Transmission process */
+  hdma_tx.Instance                 = USART_DBG_TX_DMA_CHANNEL;
+  hdma_tx.Init.Direction           = DMA_MEMORY_TO_PERIPH;
+  hdma_tx.Init.PeriphInc           = DMA_PINC_DISABLE;
+  hdma_tx.Init.MemInc              = DMA_MINC_ENABLE;
+  hdma_tx.Init.PeriphDataAlignment = DMA_PDATAALIGN_BYTE;
+  hdma_tx.Init.MemDataAlignment    = DMA_MDATAALIGN_BYTE;
+  hdma_tx.Init.Mode                = DMA_NORMAL;
+  hdma_tx.Init.Priority            = DMA_PRIORITY_LOW;
 
-  // HAL_DMA_Init(&hdma_tx);
+  HAL_DMA_Init(&hdma_tx);
 
-  // /* Associate the initialized DMA handle to the UART handle */
-  // __HAL_LINKDMA(huart, hdmatx, hdma_tx);
+  /* Associate the initialized DMA handle to the UART handle */
+  __HAL_LINKDMA(huart, hdmatx, hdma_tx);
 
-  // /* Configure the DMA handler for reception process */
-  // hdma_rx.Instance                 = USARTx_RX_DMA_CHANNEL;
-  // hdma_rx.Init.Direction           = DMA_PERIPH_TO_MEMORY;
-  // hdma_rx.Init.PeriphInc           = DMA_PINC_DISABLE;
-  // hdma_rx.Init.MemInc              = DMA_MINC_ENABLE;
-  // hdma_rx.Init.PeriphDataAlignment = DMA_PDATAALIGN_BYTE;
-  // hdma_rx.Init.MemDataAlignment    = DMA_MDATAALIGN_BYTE;
-  // hdma_rx.Init.Mode                = DMA_NORMAL;
-  // hdma_rx.Init.Priority            = DMA_PRIORITY_HIGH;
+  /* Configure the DMA handler for reception process */
+  hdma_rx.Instance                 = USART_DBG_RX_DMA_CHANNEL;
+  hdma_rx.Init.Direction           = DMA_PERIPH_TO_MEMORY;
+  hdma_rx.Init.PeriphInc           = DMA_PINC_DISABLE;
+  hdma_rx.Init.MemInc              = DMA_MINC_ENABLE;
+  hdma_rx.Init.PeriphDataAlignment = DMA_PDATAALIGN_BYTE;
+  hdma_rx.Init.MemDataAlignment    = DMA_MDATAALIGN_BYTE;
+  hdma_rx.Init.Mode                = DMA_NORMAL;
+  hdma_rx.Init.Priority            = DMA_PRIORITY_HIGH;
 
-  // HAL_DMA_Init(&hdma_rx);
+  HAL_DMA_Init(&hdma_rx);
 
-  // /* Associate the initialized DMA handle to the the UART handle */
-  // __HAL_LINKDMA(huart, hdmarx, hdma_rx);
+  /* Associate the initialized DMA handle to the the UART handle */
+  __HAL_LINKDMA(huart, hdmarx, hdma_rx);
     
   /*##-4- Configure the NVIC for DMA #########################################*/
-  // /* NVIC configuration for DMA transfer complete interrupt (USART1_TX) */
-  // HAL_NVIC_SetPriority(USARTx_DMA_TX_IRQn, 5, 0);
-  // HAL_NVIC_EnableIRQ(USARTx_DMA_TX_IRQn);
+  /* NVIC configuration for DMA transfer complete interrupt (USART1_TX) */
+  HAL_NVIC_SetPriority(USART_DBG_DMA_TX_IRQn, 5, 0);
+  HAL_NVIC_EnableIRQ(USART_DBG_DMA_TX_IRQn);
     
-  // /* NVIC configuration for DMA transfer complete interrupt (USART1_RX) */
-  // HAL_NVIC_SetPriority(USARTx_DMA_RX_IRQn, 5, 0);
-  // HAL_NVIC_EnableIRQ(USARTx_DMA_RX_IRQn);
+  /* NVIC configuration for DMA transfer complete interrupt (USART1_RX) */
+  HAL_NVIC_SetPriority(USART_DBG_DMA_RX_IRQn, 5, 0);
+  HAL_NVIC_EnableIRQ(USART_DBG_DMA_RX_IRQn);
   
   /* NVIC for USART, to catch the TX complete */
-  HAL_NVIC_SetPriority(USARTx_IRQn, 5, 0);
-  HAL_NVIC_EnableIRQ(USARTx_IRQn);
+  HAL_NVIC_SetPriority(USART_DBG_IRQn, 5, 0);
+  HAL_NVIC_EnableIRQ(USART_DBG_IRQn);
 }
 
 /**
@@ -244,18 +244,18 @@ void HAL_UART_MspInit(UART_HandleTypeDef *huart)
   * @param huart: UART handle pointer
   * @retval None
   */
-void HAL_UART_MspDeInit(UART_HandleTypeDef *huart)
+void HAL_UART_DBG_MspDeInit(UART_HandleTypeDef *huart)
 {
 
   /*##-1- Reset peripherals ##################################################*/
-  USARTx_FORCE_RESET();
-  USARTx_RELEASE_RESET();
+  USART_DBG_FORCE_RESET();
+  USART_DBG_RELEASE_RESET();
 
   /*##-2- Disable peripherals and GPIO Clocks #################################*/
-  /* Configure USARTx Tx as alternate function  */
-  HAL_GPIO_DeInit(USARTx_TX_GPIO_PORT, USARTx_TX_PIN);
-  /* Configure USARTx Rx as alternate function  */
-  HAL_GPIO_DeInit(USARTx_RX_GPIO_PORT, USARTx_RX_PIN);
+  /* Configure USART_DBG Tx as alternate function  */
+  HAL_GPIO_DeInit(USART_DBG_TX_GPIO_PORT, USART_DBG_TX_PIN);
+  /* Configure USART_DBG Rx as alternate function  */
+  HAL_GPIO_DeInit(USART_DBG_RX_GPIO_PORT, USART_DBG_RX_PIN);
    
   /*##-3- Disable the DMA #####################################################*/
   /* De-Initialize the DMA channel associated to reception process */
@@ -270,8 +270,8 @@ void HAL_UART_MspDeInit(UART_HandleTypeDef *huart)
   }  
   
   /*##-4- Disable the NVIC for DMA ###########################################*/
-  // HAL_NVIC_DisableIRQ(USARTx_DMA_TX_IRQn);
-  // HAL_NVIC_DisableIRQ(USARTx_DMA_RX_IRQn);
+  HAL_NVIC_DisableIRQ(USART_DBG_DMA_TX_IRQn);
+  HAL_NVIC_DisableIRQ(USART_DBG_DMA_RX_IRQn);
 }
 
 /**
@@ -281,7 +281,7 @@ void HAL_UART_MspDeInit(UART_HandleTypeDef *huart)
   *         you can add your own implementation. 
   * @retval None
   */
-void HAL_UART_TxCpltCallback(UART_HandleTypeDef *UartHandle)
+void HAL_UART_DBG_TxCpltCallback(UART_HandleTypeDef *UartHandle)
 {
   /* Set transmission flag: trasfer complete*/
   AaSysLogSendCplt();
@@ -294,7 +294,7 @@ void HAL_UART_TxCpltCallback(UART_HandleTypeDef *UartHandle)
   *         you can add your own implementation.
   * @retval None
   */
-void HAL_UART_RxCpltCallback(UART_HandleTypeDef *UartHandle)
+void HAL_UART_DBG_RxCpltCallback(UART_HandleTypeDef *UartHandle)
 {
   /* Set transmission flag: trasfer complete*/
   
@@ -307,7 +307,7 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *UartHandle)
   *         add your own implementation.
   * @retval None
   */
-void HAL_UART_ErrorCallback(UART_HandleTypeDef *UartHandle)
+void HAL_UART_DBG_ErrorCallback(UART_HandleTypeDef *UartHandle)
 {
 }
 
@@ -320,7 +320,7 @@ PUTCHAR_PROTOTYPE
 {
   /* Place your implementation of fputc here */
   /* e.g. write a character to the USART1 and Loop until the end of transmission */
-  HAL_UART_Transmit(&UartHandle, (uint8_t *)&ch, 1, 0xFFFF);
+  HAL_UART_Transmit(&UartHandle_dbg, (uint8_t *)&ch, 1, 0xFFFF);
 
   return ch;
 }

@@ -39,20 +39,20 @@
         <option>
           <name>Input variant</name>
           <version>3</version>
-          <state>1</state>
+          <state>6</state>
         </option>
         <option>
           <name>Input description</name>
-          <state>Full formatting.</state>
+          <state>No specifier n, no float nor long long, no scan set, no assignment suppressing.</state>
         </option>
         <option>
           <name>Output variant</name>
           <version>2</version>
-          <state>1</state>
+          <state>5</state>
         </option>
         <option>
           <name>Output description</name>
-          <state>Full formatting.</state>
+          <state>No specifier a, A, no specifier n, no float nor long long.</state>
         </option>
         <option>
           <name>GOutputBinary</name>
@@ -303,6 +303,7 @@
         <option>
           <name>CCIncludePath2</name>
           <state>$PROJ_DIR$\..\Inc</state>
+          <state>$PROJ_DIR$\..\..\User</state>
           <state>$PROJ_DIR$\..\..\Platform\AaSysLog</state>
           <state>$PROJ_DIR$\..\..\Platform\AaMem</state>
           <state>$PROJ_DIR$\..\..\Platform\AaThread</state>
@@ -336,16 +337,16 @@
         </option>
         <option>
           <name>CCOptLevel</name>
-          <state>1</state>
+          <state>0</state>
         </option>
         <option>
           <name>CCOptStrategy</name>
           <version>0</version>
-          <state>1</state>
+          <state>0</state>
         </option>
         <option>
           <name>CCOptLevelSlave</name>
-          <state>1</state>
+          <state>0</state>
         </option>
         <option>
           <name>CompilerMisraRules98</name>
@@ -416,7 +417,7 @@
         <option>
           <name>CCOptStrategySlave</name>
           <version>0</version>
-          <state>1</state>
+          <state>0</state>
         </option>
         <option>
           <name>CCGuardCalls</name>
@@ -976,22 +977,25 @@
     <group>
       <name>User</name>
       <file>
-        <name>$PROJ_DIR$\..\Src\led.c</name>
+        <name>$PROJ_DIR$\..\..\User\fastcheck.c</name>
+      </file>
+      <file>
+        <name>$PROJ_DIR$\..\..\User\led.c</name>
       </file>
       <file>
         <name>$PROJ_DIR$\..\Src\main.c</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\Src\print_com.c</name>
+        <name>$PROJ_DIR$\..\..\User\print_com.c</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\Src\sense.c</name>
+        <name>$PROJ_DIR$\..\Src\stm32f1xx_hal_msp.c</name>
       </file>
       <file>
         <name>$PROJ_DIR$\..\Src\stm32f1xx_it.c</name>
       </file>
       <file>
-        <name>$PROJ_DIR$\..\Src\tsc3200.c</name>
+        <name>$PROJ_DIR$\..\..\User\tsc3200.c</name>
       </file>
     </group>
   </group>

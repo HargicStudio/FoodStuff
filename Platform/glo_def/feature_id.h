@@ -30,6 +30,7 @@ History:
 #define FeatureSense    "SenseF"
 #define FeatureOlcd     "OlcdFe"
 #define FeatureTsc3200  "Tsc320"
+#define FeatureFstChk   "FstChk"
 
 
 #ifdef __cplusplus

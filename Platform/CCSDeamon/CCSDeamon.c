@@ -15,6 +15,7 @@ History:
 #include "print_com.h"
 #include "led.h"
 #include "sense.h"
+#include "tsc3200.h"
 
 
 #define CCSDEAMON_STACK_SIZE        0x80
@@ -57,6 +58,7 @@ u8 CCSDeamonCEInit()
 
     // @first because all service should depand on log
     StdUsartInit();
+    printf("Hello, world!\r\n");
 
     // bip buffer has not construct because of memery heap do not setup,
     // so aasyslog should use stdio print interface
@@ -78,8 +80,8 @@ u8 CCSDeamonCEInit()
     AaTagCreateDeamon();
     // start application task
     StartRunLedTask();
-    StartSenseTask();
-    StartRunTsc3200Task();
+    // StartSenseTask();
+    // StartRunTsc3200Task();
 
     // create global tag
     AaTagCreate(AATAG_CCS_DEAMON_ONLINE, 0);
@@ -88,7 +90,7 @@ u8 CCSDeamonCEInit()
     AaSysLogPrint(LOGLEVEL_DBG, SystemStartup, "System started");
 
     // as scheduler started, print can be print into bipbuffer and send out by DMA
-    AaSysLogGetBipRegister(GetBipAndSendByIT);
+    AaSysLogGetBipRegister(GetBipAndSendByDMA);
     AaSysLogProcessPrintRunning();
     
     return 0;

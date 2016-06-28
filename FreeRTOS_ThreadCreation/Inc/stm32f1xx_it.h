@@ -67,9 +67,9 @@ void UsageFault_Handler(void);
 void DebugMon_Handler(void);
 void SysTick_Handler(void);
 
-void USARTx_DMA_RX_IRQHandler(void);
-void USARTx_DMA_TX_IRQHandler(void);
-void USARTx_IRQHandler(void);
+void USART_DBG_DMA_RX_IRQHandler(void);
+void USART_DBG_DMA_TX_IRQHandler(void);
+void USART_DBG_IRQHandler(void);
 
 void ADCx_IRQHandler(void);
 void ADCx_DMA_IRQHandler(void);
